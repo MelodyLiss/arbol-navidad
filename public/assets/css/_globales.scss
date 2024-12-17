@@ -1,0 +1,24 @@
+html {
+    box-sizing: border-box;
+    font-family: $primary_font;
+    font-family: $primary_font , sans-serif;
+    letter-spacing: 0.2rem;
+    font-size: 0.8rem;
+    color: $black_color;
+    background-color: $bg_color;
+    
+    text-align: center;
+
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    overflow: hidden;//para evitar el scroll
+    }
+
+

@@ -1,0 +1,66 @@
+.arbol-navidad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.contenedor-arbol-navidenio {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 600px;
+
+    svg {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.adornos-arbol-navidenio {
+    background-color: rgb(114, 80, 20);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+
+
+    .esfera_base_A {
+        width: 65px;
+        height: 65px;
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: scale(1.5);
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+}
+
+
+//Estilos para las esferas en el árbol c-js
+.adorno_en_arbol {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    z-index: 10;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+//esfera con foto 
+
