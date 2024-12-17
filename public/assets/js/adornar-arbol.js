@@ -5,6 +5,8 @@ const adornarArbol = (arbol,cajaAdornos,adornosIniciales) => {
 
     const inicializarAdornos = () => {
         cajaAdornos.innerHTML = '';
+
+
         adornosIniciales.forEach(objeto => {
             const adorno = crearAdorno(objeto.nombre, objeto.src, objeto.clase || 'esfera_base_A');
             cajaAdornos.appendChild(adorno);
@@ -116,6 +118,7 @@ const adornarArbol = (arbol,cajaAdornos,adornosIniciales) => {
     arbol.addEventListener('dragover', permitirSoltar);
     arbol.addEventListener('drop', soltarAdorno);
 };
+
 
 export{
     adornarArbol

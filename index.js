@@ -31,11 +31,13 @@ const adornos = [
     // { nombre: 'esfera_10', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
 ];
 
-const coloresLuces = ['blanca', 'amarilla', 'azul', 'roja', 'verde', 'rosada']
+
 
 document.addEventListener("DOMContentLoaded", () => {
     secuenciaLuces(setLuces);
-    adornarArbol(arbol,cajaAdornos,adornos)
-    encenderArbol(coloresLuces)
+    adornarArbol(arbol, cajaAdornos, adornos);
+    const iniciarSecuenciaLuces = encenderArbol();
     
+    const btnEncender = document.querySelector('#listo');
+    btnEncender.addEventListener('click', iniciarSecuenciaLuces);
 });
