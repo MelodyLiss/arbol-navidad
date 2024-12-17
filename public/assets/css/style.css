@@ -81,7 +81,7 @@ body {
 
 /* LUCES */
 .luz {
-  transition: opacity 0.3s, fill 0.3s;
+  transition: opacity 0.3s ease, fill 0.3s;
 }
 
 .blanca {
