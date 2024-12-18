@@ -1,5 +1,6 @@
+import {animacionAdornos} from "./adornar-arbol.js"
+
 const encenderArbol = () => {
-    console.log('🔍 FUNCIÓN encenderArbol DEFINIDA');
     
     const coloresLuces = ['blanca', 'amarilla', 'azul', 'roja', 'verde', 'rosada'];
     let indice = 0;
@@ -50,8 +51,6 @@ const encenderArbol = () => {
     let secuenciaActual = 'secuencia4';
 
     const cambiarSecuencia = () => {
-        console.log('🔄 Cambiando secuencia');
-        
         if (intervaloActual) {
             clearInterval(intervaloActual);
         }
@@ -88,6 +87,7 @@ const encenderArbol = () => {
         }
 
         cambiarSecuencia();
+        animacionAdornos();
 
         setInterval(cambiarSecuencia, 6000);
     };

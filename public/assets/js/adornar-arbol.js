@@ -120,6 +120,27 @@ const adornarArbol = (arbol,cajaAdornos,adornosIniciales) => {
 };
 
 
+
+/* animacion de adornos */
+
+const animacionAdornos = () => {
+    const adornosArbol = document.querySelectorAll('.adorno_en_arbol');
+    const cambiarTamaño = () => {
+        
+        adornosArbol.forEach(adorno => {
+            const escalaAleatoria = 0.8 + Math.random() * 0.4;
+            adorno.style.transition = 'transform 0.5s ease-in-out';
+            adorno.style.transform = `scale(${escalaAleatoria})`;
+        });
+    };
+    setInterval(cambiarTamaño, 500);
+};
+
+const volteoEsfera = () => {
+    
+};
+
 export{
-    adornarArbol
+    adornarArbol,
+    animacionAdornos
 }
