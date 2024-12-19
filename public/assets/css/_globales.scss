@@ -22,3 +22,20 @@ body {
     }
 
 
+.ocultar{
+    display: none;
+}
+
+button{
+    background-color: rgb(201, 9, 31);
+    display: inline;
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 10px;
+    color: whitesmoke;
+    border: none;
+
+    &:hover{
+        scale: (1.2);
+    }
+}

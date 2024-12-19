@@ -1,11 +1,10 @@
-const adornarArbol = (arbol,cajaAdornos,adornosIniciales) => {
+const adornarArbol = (arbol, cajaAdornos, adornosIniciales) => {
 
     let adornoSeleccionado = null;
     let offsetX, offsetY;
 
     const inicializarAdornos = () => {
         cajaAdornos.innerHTML = '';
-
 
         adornosIniciales.forEach(objeto => {
             const adorno = crearAdorno(objeto.nombre, objeto.src, objeto.clase || 'esfera_base_A');
@@ -126,7 +125,7 @@ const adornarArbol = (arbol,cajaAdornos,adornosIniciales) => {
 const animacionAdornos = () => {
     const adornosArbol = document.querySelectorAll('.adorno_en_arbol');
     const cambiarTamaño = () => {
-        
+
         adornosArbol.forEach(adorno => {
             const escalaAleatoria = 0.8 + Math.random() * 0.4;
             adorno.style.transition = 'transform 0.5s ease-in-out';
@@ -136,11 +135,65 @@ const animacionAdornos = () => {
     setInterval(cambiarTamaño, 500);
 };
 
-const volteoEsfera = () => {
-    
+const cambioEsfera = () => {
+    const mostrar = document.getElementById('mostrar-foto');
+
+    fetch('./public/assets/datos.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo cargar el archivo JSON');
+            }
+            return response.json();
+        })
+        .then(datos => {
+            mostrar.addEventListener('click', () => {
+                const esferas = document.querySelectorAll('.adorno_en_arbol');
+
+                esferas.forEach((esfera, index) => {
+                    if (datos[index] && datos[index].imagen) {
+                        // Crear un nuevo elemento SVG
+                        const nuevoSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                        nuevoSVG.setAttribute("width", "250");
+                        nuevoSVG.setAttribute("height", "250");
+                        nuevoSVG.setAttribute("viewBox", "0 0 24.053027 24.053027");
+                        nuevoSVG.setAttribute("class", "esfera-foto");
+
+                        // Crear un identificador único para el patrón
+                        const patternId = `imagePattern_${index}`;
+
+                        // Crear el contenido del SVG
+                        nuevoSVG.innerHTML = `
+                            <defs>
+                                <pattern id="${patternId}" x="0" y="0" width="14.33" height="13.46" preserveAspectRatio="xMidYMid slice" >
+                                    <image href="${datos[index].imagen}" x="0" y="0" width="14.33" height="13.46" preserveAspectRatio="xMidYMid slice"  />
+                                </pattern>
+                            </defs>
+                            <ellipse style="fill:url(#${patternId});fill-opacity:1;stroke:none;stroke-width:0.727272"cx="11.760735" cy="14.14187" rx="7.1641097" ry="6.7292938" />
+
+                            <path d="m 11.86451,4.0167416 c -0.857731,-9.73e-5 -1.553116,0.6210375 -1.553111,1.3872771 9.15e-4,0.048531 0.0047,0.096985 0.01128,0.1451638 0,0 -0.5168037,-0.049174 -0.5483985,0.010658 C 9.41437,6.2414062 9.8828326,7.8813947 9.8828326,7.8813947 l 4.0485754,0.2122947 c 0,0 0.21469,-1.8613046 -0.05856,-2.5445069 -0.05751,-0.1437976 -0.464618,0 -0.464618,0 0.0058,-0.048216 0.0088,-0.09667 0.0089,-0.1451638 5e-6,-0.7660759 -0.695094,-1.387143 -1.552642,-1.3872771 z m 0,0.4350215 c 0.560144,1.534e-4 1.01417,0.4171668 1.014268,0.931585 7.6e-5,0.055605 -0.0053,0.1111046 -0.01597,0.1658344 h -1.996589 c -0.01086,-0.054717 -0.01636,-0.1102164 -0.01644,-0.1658344 9.8e-5,-0.5145863 0.45441,-0.9316695 1.014737,-0.931585 z" style="fill:#d1bd31;fill-opacity:0.947522;stroke:none;stroke-width:0.727272" />
+                            <path d="m 11.760615,7.4127483 a 7.1641097,6.7292938 0 0 0 -7.1637621,6.7292097 7.1641097,6.7292938 0 0 0 7.1637621,6.729211 7.1641097,6.7292938 0 0 0 7.164231,-6.729211 7.1641097,6.7292938 0 0 0 -7.164231,-6.7292097 z m 0.02067,0.760583 A 6.3412266,6.0099382 0 0 1 18.122453,14.1833 6.3412266,6.0099382 0 0 1 11.781285,20.193268 6.3412266,6.0099382 0 0 1 5.4401182,14.1833 6.3412266,6.0099382 0 0 1 11.781285,8.1733313 Z" style="fill:#c10000;stroke-width:0.727272" />
+                        `;
+
+                        esfera.innerHTML = '';
+                        esfera.appendChild(nuevoSVG);
+
+                        // Forzar un reflow para asegurar que el navegador actualice la visualización >:C
+                        esfera.offsetHeight;
+                    }
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar el archivo JSON:', error);
+        });
 };
 
-export{
+
+
+
+
+export {
     adornarArbol,
-    animacionAdornos
+    animacionAdornos,
+    cambioEsfera
 }
