@@ -118,10 +118,6 @@ const adornarArbol = (arbol, cajaAdornos, adornosIniciales) => {
     arbol.addEventListener('drop', soltarAdorno);
 };
 
-
-
-/* animacion de adornos */
-
 const animacionAdornos = () => {
     const adornosArbol = document.querySelectorAll('.adorno_en_arbol');
     const cambiarTamaño = () => {
@@ -133,67 +129,216 @@ const animacionAdornos = () => {
         });
     };
     setInterval(cambiarTamaño, 500);
+    setInterval(girarEsferaAleatoria, 6000);
 };
 
-const cambioEsfera = () => {
-    const mostrar = document.getElementById('mostrar-foto');
+const cargarDatosEsferas = async () => {
+    try {
+        const response = await fetch('./public/assets/datos.json');
+        if (!response.ok) {
+            throw new Error('No se pudo cargar el archivo JSON');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error al cargar el archivo JSON:', error);
+        return null;
+    }
+};
 
-    fetch('./public/assets/datos.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('No se pudo cargar el archivo JSON');
+const crearContenidoEsfera = (datos, index) => {
+    const nuevoSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    nuevoSVG.setAttribute("width", "250");
+    nuevoSVG.setAttribute("height", "250");
+    nuevoSVG.setAttribute("viewBox", "0 0 24.053027 24.053027");
+    nuevoSVG.setAttribute("class", "esfera-foto");
+
+    const patternId = `imagePattern_${index}`;
+    nuevoSVG.innerHTML = `
+        <defs>
+            <pattern id="${patternId}" x="0" y="0" width="14.33" height="13.46" preserveAspectRatio="xMidYMid slice">
+                <image href="${datos.imagen}" x="0" y="0" width="14.33" height="13.46" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+        </defs>
+        <ellipse style="fill:url(#${patternId});fill-opacity:1;stroke:none;stroke-width:0.727272" cx="11.760735" cy="14.14187" rx="7.1641097" ry="6.7292938" />
+        <path d="m 11.86451,4.0167416 c -0.857731,-9.73e-5 -1.553116,0.6210375 -1.553111,1.3872771 9.15e-4,0.048531 0.0047,0.096985 0.01128,0.1451638 0,0 -0.5168037,-0.049174 -0.5483985,0.010658 C 9.41437,6.2414062 9.8828326,7.8813947 9.8828326,7.8813947 l 4.0485754,0.2122947 c 0,0 0.21469,-1.8613046 -0.05856,-2.5445069 -0.05751,-0.1437976 -0.464618,0 -0.464618,0 0.0058,-0.048216 0.0088,-0.09667 0.0089,-0.1451638 5e-6,-0.7660759 -0.695094,-1.387143 -1.552642,-1.3872771 z" style="fill:#d1bd31;fill-opacity:0.947522;stroke:none;stroke-width:0.727272" />
+        <path d="m 11.760615,7.4127483 a 7.1641097,6.7292938 0 0 0 -7.1637621,6.7292097 7.1641097,6.7292938 0 0 0 7.1637621,6.729211 7.1641097,6.7292938 0 0 0 7.164231,-6.729211 7.1641097,6.7292938 0 0 0 -7.164231,-6.7292097 z m 0.02067,0.760583 A 6.3412266,6.0099382 0 0 1 18.122453,14.1833 6.3412266,6.0099382 0 0 1 11.781285,20.193268 6.3412266,6.0099382 0 0 1 5.4401182,14.1833 6.3412266,6.0099382 0 0 1 11.781285,8.1733313 Z" style="fill:#c10000;stroke-width:0.727272" />
+    `;
+    return nuevoSVG;
+};
+
+
+const girarEsfera = async (esfera) => {
+    const contenidoOriginal = esfera.innerHTML;
+    const index = parseInt(esfera.dataset.nombre?.split('_')[1] || 1) - 1;
+
+    const datos = await cargarDatosEsferas();
+    if (datos && datos[index]) {
+        esfera.style.transition = 'transform 0.5s ease-in-out';
+        esfera.style.transform = 'rotateY(180deg)';
+        
+        setTimeout(() => {
+            esfera.innerHTML = '';
+            esfera.appendChild(crearContenidoEsfera(datos[index], index));
+            
+            setTimeout(() => {
+                esfera.style.transform = 'rotateY(360deg)';
+                
+                setTimeout(() => {
+                    esfera.style.transform = 'rotateY(0deg)';
+                    esfera.innerHTML = contenidoOriginal;
+                }, 3000);
+            }, 500);
+        }, 250);
+    }
+};
+
+const girarEsferaAleatoria = () => {
+    const esferas = document.querySelectorAll('.adorno_en_arbol');
+    if (esferas.length > 0) {
+        const esferaAleatoria = esferas[Math.floor(Math.random() * esferas.length)];
+        girarEsfera(esferaAleatoria);
+    }
+};
+
+const crearDivDetalle = (datos, index) => {
+    const divDetalle = document.createElement('div');
+    divDetalle.classList.add('detalle-esfera');
+    divDetalle.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        z-index: 1000;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+    `;
+
+    // Crear el botón de cerrar
+    const btnCerrar = document.createElement('button');
+    btnCerrar.innerHTML = '×';
+    btnCerrar.style.cssText = `
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border: none;
+        background: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #333;
+    `;
+    btnCerrar.addEventListener('click', () => divDetalle.remove());
+
+    // Crear el título
+    const titulo = document.createElement('h2');
+    titulo.textContent = datos.nombre;
+    titulo.style.cssText = `
+        margin: 0 0 15px 0;
+        color: #333;
+        font-size: 1.5em;
+    `;
+
+    // Contenedor para el SVG
+    const contenedorSVG = document.createElement('div');
+    contenedorSVG.style.cssText = `
+        margin: 15px 0;
+        display: flex;
+        justify-content: center;
+    `;
+    contenedorSVG.appendChild(crearContenidoEsfera(datos, index));
+
+    // Crear el párrafo para el mensaje
+    const mensaje = document.createElement('p');
+    mensaje.textContent = datos.mensaje;
+    mensaje.style.cssText = `
+        margin: 15px 0 0 0;
+        color: #666;
+        line-height: 1.5;
+    `;
+
+    // Agregar fondo oscuro
+    const fondoOscuro = document.createElement('div');
+    fondoOscuro.classList.add = 'fondoTarjeta';
+    fondoOscuro.addEventListener('click', () => {
+        fondoOscuro.remove();
+        divDetalle.remove();
+    });
+
+    // Ensamblar el div de detalle
+    divDetalle.appendChild(btnCerrar);
+    divDetalle.appendChild(titulo);
+    divDetalle.appendChild(contenedorSVG);
+    divDetalle.appendChild(mensaje);
+
+    return {
+        divDetalle,
+        fondoOscuro
+    };
+};
+
+// Función para mostrar el detalle de una esfera
+const mostrarDetalleEsfera = async (esfera) => {
+    // Obtenemos el número de la esfera del atributo nombre
+    const esferaNumero = esfera.dataset.nombre.split('_')[1];
+    // Convertimos el string "01", "02", etc. a número y restamos 1 para el índice
+    const index = parseInt(esferaNumero) - 1;
+    
+    const datos = await cargarDatosEsferas();
+    
+    if (datos && datos[index]) {
+        const { divDetalle, fondoOscuro } = crearDivDetalle(datos[index], index);
+        document.body.appendChild(fondoOscuro);
+        document.body.appendChild(divDetalle);
+
+        divDetalle.style.opacity = '0';
+        divDetalle.style.transform = 'translate(-50%, -60%)';
+        divDetalle.style.transition = 'all 0.3s ease-out';
+        
+        divDetalle.offsetHeight;
+        
+        divDetalle.style.opacity = '1';
+        divDetalle.style.transform = 'translate(-50%, -50%)';
+    }
+};
+
+const inicializarEventosEsferas = () => {
+    const esferas = document.querySelectorAll('.adorno_en_arbol');
+    esferas.forEach(esfera => {
+        // Variable para evitar doble disparo en dispositivos táctiles
+        let isTouch = false;
+        
+        // Evento hover para girar (solo en desktop)
+        esfera.addEventListener('mouseenter', () => {
+            if (!isTouch) {
+                girarEsfera(esfera);
             }
-            return response.json();
-        })
-        .then(datos => {
-            mostrar.addEventListener('click', () => {
-                const esferas = document.querySelectorAll('.adorno_en_arbol');
-
-                esferas.forEach((esfera, index) => {
-                    if (datos[index] && datos[index].imagen) {
-                        // Crear un nuevo elemento SVG
-                        const nuevoSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-                        nuevoSVG.setAttribute("width", "250");
-                        nuevoSVG.setAttribute("height", "250");
-                        nuevoSVG.setAttribute("viewBox", "0 0 24.053027 24.053027");
-                        nuevoSVG.setAttribute("class", "esfera-foto");
-
-                        // Crear un identificador único para el patrón
-                        const patternId = `imagePattern_${index}`;
-
-                        // Crear el contenido del SVG
-                        nuevoSVG.innerHTML = `
-                            <defs>
-                                <pattern id="${patternId}" x="0" y="0" width="14.33" height="13.46" preserveAspectRatio="xMidYMid slice" >
-                                    <image href="${datos[index].imagen}" x="0" y="0" width="14.33" height="13.46" preserveAspectRatio="xMidYMid slice"  />
-                                </pattern>
-                            </defs>
-                            <ellipse style="fill:url(#${patternId});fill-opacity:1;stroke:none;stroke-width:0.727272"cx="11.760735" cy="14.14187" rx="7.1641097" ry="6.7292938" />
-
-                            <path d="m 11.86451,4.0167416 c -0.857731,-9.73e-5 -1.553116,0.6210375 -1.553111,1.3872771 9.15e-4,0.048531 0.0047,0.096985 0.01128,0.1451638 0,0 -0.5168037,-0.049174 -0.5483985,0.010658 C 9.41437,6.2414062 9.8828326,7.8813947 9.8828326,7.8813947 l 4.0485754,0.2122947 c 0,0 0.21469,-1.8613046 -0.05856,-2.5445069 -0.05751,-0.1437976 -0.464618,0 -0.464618,0 0.0058,-0.048216 0.0088,-0.09667 0.0089,-0.1451638 5e-6,-0.7660759 -0.695094,-1.387143 -1.552642,-1.3872771 z m 0,0.4350215 c 0.560144,1.534e-4 1.01417,0.4171668 1.014268,0.931585 7.6e-5,0.055605 -0.0053,0.1111046 -0.01597,0.1658344 h -1.996589 c -0.01086,-0.054717 -0.01636,-0.1102164 -0.01644,-0.1658344 9.8e-5,-0.5145863 0.45441,-0.9316695 1.014737,-0.931585 z" style="fill:#d1bd31;fill-opacity:0.947522;stroke:none;stroke-width:0.727272" />
-                            <path d="m 11.760615,7.4127483 a 7.1641097,6.7292938 0 0 0 -7.1637621,6.7292097 7.1641097,6.7292938 0 0 0 7.1637621,6.729211 7.1641097,6.7292938 0 0 0 7.164231,-6.729211 7.1641097,6.7292938 0 0 0 -7.164231,-6.7292097 z m 0.02067,0.760583 A 6.3412266,6.0099382 0 0 1 18.122453,14.1833 6.3412266,6.0099382 0 0 1 11.781285,20.193268 6.3412266,6.0099382 0 0 1 5.4401182,14.1833 6.3412266,6.0099382 0 0 1 11.781285,8.1733313 Z" style="fill:#c10000;stroke-width:0.727272" />
-                        `;
-
-                        esfera.innerHTML = '';
-                        esfera.appendChild(nuevoSVG);
-
-                        // Forzar un reflow para asegurar que el navegador actualice la visualización >:C
-                        esfera.offsetHeight;
-                    }
-                });
-            });
-        })
-        .catch(error => {
-            console.error('Error al cargar el archivo JSON:', error);
         });
+        
+        // Evento click para mostrar detalle
+        esfera.addEventListener('click', (e) => {
+            if (!isTouch) {
+                mostrarDetalleEsfera(esfera);
+            }
+        });
+
+        // Eventos touch
+        esfera.addEventListener('touchstart', (e) => {
+            isTouch = true;
+            mostrarDetalleEsfera(esfera);
+        }, { passive: true });
+    });
 };
-
-
 
 
 
 export {
     adornarArbol,
     animacionAdornos,
-    cambioEsfera
+    girarEsfera, 
+    girarEsferaAleatoria, 
+    inicializarEventosEsferas 
 }

@@ -1,4 +1,4 @@
-import {animacionAdornos} from "./adornar-arbol.js"
+import {animacionAdornos,inicializarEventosEsferas,} from "./adornar-arbol.js"
 
 const encenderArbol = () => {
     
@@ -88,6 +88,8 @@ const encenderArbol = () => {
 
         cambiarSecuencia();
         animacionAdornos();
+        inicializarEventosEsferas();
+
 
         setInterval(cambiarSecuencia, 6000);
     };

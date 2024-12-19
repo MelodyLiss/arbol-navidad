@@ -1,4 +1,4 @@
-import {adornarArbol,cambioEsfera} from "./public/assets/js/adornar-arbol.js";
+import {adornarArbol} from "./public/assets/js/adornar-arbol.js";
 import {secuenciaLuces} from "./public/assets/js/animacion-inicio-luces.js";
 import {encenderArbol} from "./public/assets/js/animacion-luces-encendidas.js"
 
@@ -22,16 +22,16 @@ const adornos = [
     { nombre: 'esfera_04', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
     { nombre: 'esfera_05', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
     { nombre: 'esfera_06', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_07', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_08', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_09', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_10', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
+    // { nombre: 'esfera_07', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
+    // { nombre: 'esfera_08', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
+    // { nombre: 'esfera_09', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
+    // { nombre: 'esfera_10', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
     secuenciaLuces(setLuces);
     adornarArbol(arbol, cajaAdornos, adornos);
-    cambioEsfera()
+
     const iniciarSecuenciaLuces = encenderArbol();
     
     const btnEncender = document.querySelector('#listo');

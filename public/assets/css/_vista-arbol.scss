@@ -49,9 +49,17 @@
     position: absolute;
     width: 80px;
     height: 80px;
+
+    @include pequenos {
+        width: 60px;
+        height: 60px;
+    }
+
     z-index: 10;
-    transform-style: preserve-3d; /* Necesario para un efecto 3D */
-    transition: transform 0.6s; /* Duración del giro */
+    transform-style: preserve-3d;
+    /* Necesario para un efecto 3D */
+    transition: transform 0.6s;
+    /* Duración del giro */
 
     &:hover {
         transform: scale(1.1);
@@ -63,7 +71,7 @@
         object-fit: contain;
     }
 
-//para el efecto de volte c-js
+    //para el efecto de volte c-js
 
     .cara {
         position: absolute;
@@ -73,11 +81,21 @@
     }
 
     .cara-trasera {
-        transform: rotateY(180deg); /* La imagen trasera está "girada" */
+        transform: rotateY(180deg);
+        /* La imagen trasera está "girada" */
     }
 
 }
 
 
+/* Tarjetas esferas */
 
-
+.fondoTarjeta {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $bg_color;
+    z-index: 999;
+}

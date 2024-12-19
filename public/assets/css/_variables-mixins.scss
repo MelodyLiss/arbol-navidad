@@ -84,3 +84,12 @@ $desktopXL-min: $desktop + 1;
     grid-template-columns: repeat($columnas, 1fr);
     gap: $espaciado;
 }
+
+
+//!mixin de tamaños varios :
+
+@mixin pequenos {
+    @media (max-width: $tablet) {
+        @content;
+    }
+}

@@ -86,8 +86,16 @@ button:hover {
   width: 80px;
   height: 80px;
   z-index: 10;
-  transform-style: preserve-3d; /* Necesario para un efecto 3D */
-  transition: transform 0.6s; /* Duración del giro */
+  transform-style: preserve-3d;
+  /* Necesario para un efecto 3D */
+  transition: transform 0.6s;
+  /* Duración del giro */
+}
+@media (max-width: 768px) {
+  .adorno_en_arbol {
+    width: 60px;
+    height: 60px;
+  }
 }
 .adorno_en_arbol:hover {
   transform: scale(1.1);
@@ -105,7 +113,19 @@ button:hover {
   backface-visibility: hidden;
 }
 .adorno_en_arbol .cara-trasera {
-  transform: rotateY(180deg); /* La imagen trasera está "girada" */
+  transform: rotateY(180deg);
+  /* La imagen trasera está "girada" */
+}
+
+/* Tarjetas esferas */
+.fondoTarjeta {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(19, 12, 55);
+  z-index: 999;
 }
 
 /* LUCES */
