@@ -19,16 +19,16 @@ const setLuces = [
 
 /* adornos para el arbol */
 const adornos = [
-    { nombre: 'esfera_01', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_02', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_03', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_04', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_05', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_06', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_07', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_08', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_09', src: '../assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_10', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_01', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_02', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_03', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_04', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_05', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_06', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_07', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_08', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_09', src: './assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_10', src: '/assets/img/adornos/esfera_navidad_A.svg' },
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
