@@ -1,8 +1,8 @@
-import { adornarArbol, girar } from "./public/assets/js/adornar-arbol.js";
+import { adornarArbol, girar } from "./adornar-arbol.js";
 const { girarTodasLasEsferas } = girar()
-import { secuenciaLuces } from "./public/assets/js/animacion-inicio-luces.js";
-import { encenderArbol } from "./public/assets/js/animacion-luces-encendidas.js";
-import { volumenInicial, crearCopo } from "./public/assets/js/generales.js"
+import { secuenciaLuces } from "./animacion-inicio-luces.js";
+import { encenderArbol } from "./animacion-luces-encendidas.js";
+import { volumenInicial, crearCopo } from "./generales.js"
 const arbol = document.querySelector('#arbol');
 const cajaAdornos = document.querySelector('.adornos-arbol-navidenio');
 
