@@ -1,6 +1,4 @@
 /.vscode
 /node_modules
-test.js
 *.scss
-datos.json
-*.webp
+

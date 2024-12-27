@@ -1,10 +1,13 @@
-import {adornarArbol} from "./public/assets/js/adornar-arbol.js";
-import {secuenciaLuces} from "./public/assets/js/animacion-inicio-luces.js";
-import {encenderArbol} from "./public/assets/js/animacion-luces-encendidas.js"
-
-
+import { adornarArbol, girar } from "./public/assets/js/adornar-arbol.js";
+const { girarTodasLasEsferas } = girar()
+import { secuenciaLuces } from "./public/assets/js/animacion-inicio-luces.js";
+import { encenderArbol } from "./public/assets/js/animacion-luces-encendidas.js";
+import { volumenInicial, crearCopo } from "./public/assets/js/generales.js"
 const arbol = document.querySelector('#arbol');
 const cajaAdornos = document.querySelector('.adornos-arbol-navidenio');
+
+
+
 
 /* trayectos para la creacion de las luces */
 const setLuces = [
@@ -16,24 +19,38 @@ const setLuces = [
 
 /* adornos para el arbol */
 const adornos = [
-    { nombre: 'esfera_01', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_02', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_03', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_04', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_05', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    { nombre: 'esfera_06', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    // { nombre: 'esfera_07', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    // { nombre: 'esfera_08', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    // { nombre: 'esfera_09', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
-    // { nombre: 'esfera_10', src: './public/assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_01', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_02', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_03', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_04', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_05', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_06', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_07', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_08', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_09', src: '../assets/img/adornos/esfera_navidad_A.svg' },
+    { nombre: 'esfera_10', src: '../assets/img/adornos/esfera_navidad_A.svg' },
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    volumenInicial();
+    setInterval(crearCopo, 100);
     secuenciaLuces(setLuces);
     adornarArbol(arbol, cajaAdornos, adornos);
 
     const iniciarSecuenciaLuces = encenderArbol();
-    
+
     const btnEncender = document.querySelector('#listo');
     btnEncender.addEventListener('click', iniciarSecuenciaLuces);
+
+
+
+
+    // const mostrarFotoBtn = document.querySelector('#mostrar-foto');
+    // ['click', 'touchstart'].forEach(evento => {
+    //     mostrarFotoBtn.addEventListener(evento, (e) => {
+    //         if (e.type === 'touchstart') e.preventDefault();
+    //         girarTodasLasEsferas();
+    //     });
+    // });
 });

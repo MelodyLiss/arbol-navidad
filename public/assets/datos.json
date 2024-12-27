@@ -1,0 +1,52 @@
+[
+    {
+        "nombre": "Familia Pérez",
+        "imagen": "../assets/img/fotos/foto_01.png",
+        "mensaje": "🎄✨ Que esta Navidad sea un momento para recordar todo lo bueno que la vida les ha dado como familia. \nQue el amor, la unión y la esperanza sigan siendo los pilares que los guíen a través de cada etapa de la vida. \n¡Feliz Navidad y un próspero Año Nuevo! 🎅❄️"
+    },
+    {
+        "nombre": "Familia Canales",
+        "imagen": "../assets/img/fotos/foto_02.png",
+        "mensaje": "🎅❤️ Que la alegría de esta temporada sea un recordatorio de lo fuertes y unidos que son. \nQue cada día del próximo año esté lleno de logros, abrazos sinceros y momentos inolvidables en compañía de sus seres queridos. 🌟🎁"
+    },
+    {
+        "nombre": "Familia Miranda",
+        "imagen": "../assets/img/fotos/foto_03.png",
+        "mensaje": "🌟🎄 Que esta Navidad les recuerde lo valioso de compartir, de estar juntos y de disfrutar los pequeños momentos. \nQue cada día del año nuevo les traiga nuevas razones para sonreír y agradecer. \n¡Felices fiestas, Familia Martínez! ❄️✨"
+    },
+    {
+        "nombre": "Familia Jofré",
+        "imagen": "../assets/img/fotos/foto_04.png",
+        "mensaje": "❤️✨ A una familia llena de amor: que en esta Navidad cada rincón de su hogar se llene de risas, sueños cumplidos y cálidos recuerdos. \nQue el próximo año les traiga salud, prosperidad y muchos momentos felices. 🎄❄️"
+    },
+    {
+        "nombre": "Familia Gutierrez",
+        "imagen": "../assets/img/fotos/foto_05.png",
+        "mensaje": "🎁🌟 En esta Navidad, celebremos el regalo más importante: la familia. \nQue la paz y la felicidad siempre acompañen su hogar, y que el próximo año esté lleno de oportunidades y bendiciones. \n¡Un fuerte abrazo para todos ustedes! ❤️🎅"
+    },
+    {
+        "nombre": "Familia Venegas",
+        "imagen": "../assets/img/fotos/foto_06.png",
+        "mensaje": "✨❄️ A la increíble Familia Fernández: que esta Navidad sea una celebración del amor y los lazos que los unen. \nQue el próximo año les traiga nuevas aventuras, aprendizajes y sueños cumplidos. \n¡Feliz Navidad y un próspero Año Nuevo! 🎄🎁"
+    },
+    {
+        "nombre": "Familia Torres",
+        "imagen": "../assets/img/fotos/foto_07.png",
+        "mensaje": "🎄🌟 Que el espíritu de la Navidad llene su hogar de alegría, paz y esperanza. \nQue cada día del próximo año sea una nueva oportunidad para crecer juntos como familia y crear recuerdos que atesoren para siempre. \n¡Felices fiestas! 🎅✨"
+    },
+    {
+        "nombre": "Familia Rubio",
+        "imagen": "../assets/img/fotos/foto_08.png",
+        "mensaje": "🎁❄️ Familia Ramírez, que esta Navidad sea tan especial como ustedes. \nQue el amor que los une siga creciendo, y que el nuevo año esté lleno de sorpresas agradables, metas cumplidas y momentos inolvidables. \n¡Disfruten estas fechas al máximo! 🎄❤️"
+    },
+    {
+        "nombre": "Familia Contrerás",
+        "imagen": "../assets/img/fotos/foto_09.png",
+        "mensaje": "🎅✨ A una familia tan maravillosa como la suya: que la magia de la Navidad ilumine sus corazones y que el próximo año sea un camino lleno de salud, éxitos y alegrías. \n¡Feliz Navidad y muchas bendiciones! 🎄🎁"
+    },
+    {
+        "nombre": "Familia Ulloa",
+        "imagen": "../assets/img/fotos/foto_10.png",
+        "mensaje": "🎄❤️ Que en esta Navidad encuentren motivos para celebrar la vida, el amor y la unión. \nQue el próximo año les traiga días llenos de luz, paz y gratitud. \nRecuerden siempre lo afortunados que son por tenerse los unos a los otros. \n¡Felices fiestas, Familia Gómez! 🎁❄️"
+    }
+]

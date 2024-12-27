@@ -1,13 +1,13 @@
-import {animacionAdornos,inicializarEventosEsferas,} from "./adornar-arbol.js"
+import { animacionAdornos, inicializarEventosEsferas, } from "./adornar-arbol.js"
 
 const encenderArbol = () => {
-    
+
     const coloresLuces = ['blanca', 'amarilla', 'azul', 'roja', 'verde', 'rosada'];
     let indice = 0;
-    
+
     const cambiarColorLuces = (secuencia) => {
         const luces = document.querySelectorAll('.luz');
-                
+
         if (secuencia === 'secuencia1') {
             luces.forEach((luz, i) => {
                 coloresLuces.forEach(color => luz.classList.remove(color));
@@ -64,9 +64,9 @@ const encenderArbol = () => {
         } else {
             secuenciaActual = 'secuencia1';
         }
-        
+
         cambiarColorLuces(secuenciaActual);
-        
+
         intervaloActual = setInterval(() => {
             cambiarColorLuces(secuenciaActual);
         }, 800);
@@ -74,9 +74,11 @@ const encenderArbol = () => {
 
     return () => {
         const cajaAdornos = document.querySelector('.adornos-arbol-navidenio');
-        
+        const mensajeFaltan = document.querySelector('#mensaje-falta');
+        const mostrarFoto = document.querySelector('#mostrar-foto');
+
         if (cajaAdornos && cajaAdornos.children.length > 0) {
-            console.log("❌ Aún te quedan esferas por colocar");
+            mensajeFaltan.innerHTML = "❌ Aún te quedan esferas por colocar"
             return;
         }
 
@@ -90,6 +92,10 @@ const encenderArbol = () => {
         animacionAdornos();
         inicializarEventosEsferas();
 
+
+        // setTimeout(() => {
+        //     mostrarFoto.classList.remove('ocultar')
+        // }, 15000); // 15000 ms = 15 segundos
 
         setInterval(cambiarSecuencia, 6000);
     };

@@ -1,3 +1,5 @@
+
+
 const adornarArbol = (arbol, cajaAdornos, adornosIniciales) => {
 
     let adornoSeleccionado = null;
@@ -134,7 +136,7 @@ const animacionAdornos = () => {
 
 const cargarDatosEsferas = async () => {
     try {
-        const response = await fetch('./public/assets/datos.json');
+        const response = await fetch('../assets/datos.json');
         if (!response.ok) {
             throw new Error('No se pudo cargar el archivo JSON');
         }
@@ -166,83 +168,97 @@ const crearContenidoEsfera = (datos, index) => {
     return nuevoSVG;
 };
 
+const girar = () => {
+    const timeouts = new Map();
+    let mostrandoContenidoAlternativo = false;
 
-const girarEsfera = async (esfera) => {
-    const contenidoOriginal = esfera.innerHTML;
-    const index = parseInt(esfera.dataset.nombre?.split('_')[1] || 1) - 1;
+    const girarEsfera = async (esfera, forzarOriginal = false) => {
+        // Cancelar timeout previo si existe
+        const timeoutId = timeouts.get(esfera);
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+            timeouts.delete(esfera);
+        }
 
-    const datos = await cargarDatosEsferas();
-    if (datos && datos[index]) {
-        esfera.style.transition = 'transform 0.5s ease-in-out';
-        esfera.style.transform = 'rotateY(180deg)';
-        
-        setTimeout(() => {
-            esfera.innerHTML = '';
-            esfera.appendChild(crearContenidoEsfera(datos[index], index));
-            
+        const contenidoOriginal = esfera.innerHTML;
+        const index = parseInt(esfera.dataset.nombre?.split('_')[1] || 1) - 1;
+
+        if (forzarOriginal || mostrandoContenidoAlternativo) {
+            esfera.style.transition = 'transform 0.5s ease-in-out';
+            esfera.style.transform = 'rotateY(180deg)';
+
             setTimeout(() => {
-                esfera.style.transform = 'rotateY(360deg)';
-                
-                setTimeout(() => {
-                    esfera.style.transform = 'rotateY(0deg)';
-                    esfera.innerHTML = contenidoOriginal;
-                }, 3000);
+                esfera.innerHTML = contenidoOriginal;
+                esfera.style.transform = 'rotateY(0deg)';
             }, 500);
-        }, 250);
-    }
+            return;
+        }
+
+        const datos = await cargarDatosEsferas();
+        if (datos && datos[index]) {
+            esfera.style.transition = 'transform 0.5s ease-in-out';
+            esfera.style.transform = 'rotateY(180deg)';
+
+            setTimeout(() => {
+                esfera.innerHTML = '';
+                esfera.appendChild(crearContenidoEsfera(datos[index], index));
+
+                setTimeout(() => {
+                    esfera.style.transform = 'rotateY(360deg)';
+
+                    const timeout = setTimeout(() => {
+                        esfera.style.transform = 'rotateY(0deg)';
+                        esfera.innerHTML = contenidoOriginal;
+                    }, 3000);
+                    timeouts.set(esfera, timeout);
+                }, 500);
+            }, 250);
+        }
+    };
+
+    const girarTodasLasEsferas = async () => {
+        const esferas = document.querySelectorAll('.adorno_en_arbol');
+
+        mostrandoContenidoAlternativo = !mostrandoContenidoAlternativo;
+
+        if (esferas.length > 0) {
+            for (let i = 0; i < esferas.length; i++) {
+                await girarEsfera(esferas[i], !mostrandoContenidoAlternativo);
+                await new Promise(resolve => setTimeout(resolve, 200));
+            }
+        }
+    };
+
+    const girarEsferaAleatoria = () => {
+        const esferas = document.querySelectorAll('.adorno_en_arbol');
+        if (esferas.length > 0) {
+            const esferaAleatoria = esferas[Math.floor(Math.random() * esferas.length)];
+            girarEsfera(esferaAleatoria);
+        }
+    };
+
+    return {
+        girarEsfera,
+        girarTodasLasEsferas,
+        girarEsferaAleatoria
+    };
 };
 
-const girarEsferaAleatoria = () => {
-    const esferas = document.querySelectorAll('.adorno_en_arbol');
-    if (esferas.length > 0) {
-        const esferaAleatoria = esferas[Math.floor(Math.random() * esferas.length)];
-        girarEsfera(esferaAleatoria);
-    }
-};
+const { girarEsferaAleatoria, girarEsfera } = girar() //mejorar!
 
 const crearDivDetalle = (datos, index) => {
     const divDetalle = document.createElement('div');
     divDetalle.classList.add('detalle-esfera');
-    divDetalle.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        z-index: 1000;
-        max-width: 400px;
-        width: 90%;
-        text-align: center;
-    `;
 
-    // Crear el botón de cerrar
     const btnCerrar = document.createElement('button');
+    btnCerrar.classList.add('btnCerrar');
     btnCerrar.innerHTML = '×';
-    btnCerrar.style.cssText = `
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        border: none;
-        background: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #333;
-    `;
     btnCerrar.addEventListener('click', () => divDetalle.remove());
 
-    // Crear el título
     const titulo = document.createElement('h2');
+    titulo.classList.add('titilo-tarjeta')
     titulo.textContent = datos.nombre;
-    titulo.style.cssText = `
-        margin: 0 0 15px 0;
-        color: #333;
-        font-size: 1.5em;
-    `;
 
-    // Contenedor para el SVG
     const contenedorSVG = document.createElement('div');
     contenedorSVG.style.cssText = `
         margin: 15px 0;
@@ -251,16 +267,10 @@ const crearDivDetalle = (datos, index) => {
     `;
     contenedorSVG.appendChild(crearContenidoEsfera(datos, index));
 
-    // Crear el párrafo para el mensaje
     const mensaje = document.createElement('p');
     mensaje.textContent = datos.mensaje;
-    mensaje.style.cssText = `
-        margin: 15px 0 0 0;
-        color: #666;
-        line-height: 1.5;
-    `;
+    mensaje.classList.add('mensaje-tarjeta')
 
-    // Agregar fondo oscuro
     const fondoOscuro = document.createElement('div');
     fondoOscuro.classList.add = 'fondoTarjeta';
     fondoOscuro.addEventListener('click', () => {
@@ -280,15 +290,14 @@ const crearDivDetalle = (datos, index) => {
     };
 };
 
-// Función para mostrar el detalle de una esfera
 const mostrarDetalleEsfera = async (esfera) => {
     // Obtenemos el número de la esfera del atributo nombre
     const esferaNumero = esfera.dataset.nombre.split('_')[1];
     // Convertimos el string "01", "02", etc. a número y restamos 1 para el índice
     const index = parseInt(esferaNumero) - 1;
-    
+
     const datos = await cargarDatosEsferas();
-    
+
     if (datos && datos[index]) {
         const { divDetalle, fondoOscuro } = crearDivDetalle(datos[index], index);
         document.body.appendChild(fondoOscuro);
@@ -297,9 +306,9 @@ const mostrarDetalleEsfera = async (esfera) => {
         divDetalle.style.opacity = '0';
         divDetalle.style.transform = 'translate(-50%, -60%)';
         divDetalle.style.transition = 'all 0.3s ease-out';
-        
+
         divDetalle.offsetHeight;
-        
+
         divDetalle.style.opacity = '1';
         divDetalle.style.transform = 'translate(-50%, -50%)';
     }
@@ -310,14 +319,14 @@ const inicializarEventosEsferas = () => {
     esferas.forEach(esfera => {
         // Variable para evitar doble disparo en dispositivos táctiles
         let isTouch = false;
-        
+
         // Evento hover para girar (solo en desktop)
         esfera.addEventListener('mouseenter', () => {
             if (!isTouch) {
                 girarEsfera(esfera);
             }
         });
-        
+
         // Evento click para mostrar detalle
         esfera.addEventListener('click', (e) => {
             if (!isTouch) {
@@ -333,12 +342,9 @@ const inicializarEventosEsferas = () => {
     });
 };
 
-
-
 export {
     adornarArbol,
     animacionAdornos,
-    girarEsfera, 
-    girarEsferaAleatoria, 
-    inicializarEventosEsferas 
+    girar,
+    inicializarEventosEsferas
 }
